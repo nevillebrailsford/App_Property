@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project app.bank with libraries in sub-folder">
+	<!--this file was created by Eclipse Runnable JAR Export Wizard-->
+	<!--ANT 1.7 is required                                        -->
+	<!--define folder properties-->
+	<property name="dir.buildfile" value="." />
+	<property name="dir.workspace" value="${dir.buildfile}" />
+	<condition property="isWindows">
+		<os family="windows" />
+	</condition>
+	<condition property="isMac">
+		<os family="mac" />
+	</condition>
+
+	<target name="setWindowsRoot" if="isWindows">
+		<property name="user.root" value="C:/Users/nevil"/>
+	</target>
+
+	<target name="setMacRoot" if="isMac">
+		<property name="user.root" value="/Users/nevil"/>
+	</target>
+
+	<target name="create_run_jar" depends="setWindowsRoot, setMacRoot">
+		<property name="dir.jarfile" value="${user.root}/Projects/Property.app" />
+		<buildnumber file="property.build.number" />
+		<echo>"Build number is ${build.number}"</echo>
+		<tstamp>
+			<format property="property.build.date" pattern="d MMMM yyyy" locale="EN,GB" />
+		</tstamp>
+
+		<jar destfile="${dir.jarfile}/PropertyApp.jar">
+			<manifest>
+				<attribute name="Main-Class" value="applications.property.application.PropertyApplication" />
+				<attribute name="Class-Path" value=". Property.app_lib/jcalendar-1.4.jar Property.app_lib/jgoodies-forms-1.9.0.jar Property.app_lib/jgoodies-common-1.8.1.jar Property.app_lib/app.base-1.0.0.jar Property.app_lib/javax.mail-1.6.2.jar Property.app_lib/activation-1.1.jar Property.app_lib/kernel-7.2.1.jar Property.app_lib/bcpkix-jdk15on-1.69.jar Property.app_lib/bcutil-jdk15on-1.69.jar Property.app_lib/bcprov-jdk15on-1.69.jar Property.app_lib/slf4j-api-1.7.31.jar Property.app_lib/io-7.2.1.jar Property.app_lib/commons-7.2.1.jar Property.app_lib/layout-7.2.1.jar" />
+				<attribute name="Build-Date" value="${property.build.date}" />
+				<attribute name="Build-Number" value="${build.number}" />
+			</manifest>
+			<fileset dir="${user.root}/git/App_Bank/app.bank/target/classes" />
+		</jar>
+		<delete dir="${dir.jarfile}/Property.app_lib" />
+		<mkdir dir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${dir.buildfile}/property.bat" todir="${dir.jarfile}" overwrite="true" />
+		<copy file="${user.root}/.m2/repository/com/toedter/jcalendar/1.4/jcalendar-1.4.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/jgoodies/jgoodies-forms/1.9.0/jgoodies-forms-1.9.0.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/jgoodies/jgoodies-common/1.8.1/jgoodies-common-1.8.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/brailsoft/app.base/1.0.0/app.base-1.0.0.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/itextpdf/kernel/7.2.1/kernel-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.69/bcpkix-jdk15on-1.69.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/org/bouncycastle/bcutil-jdk15on/1.69/bcutil-jdk15on-1.69.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.69/bcprov-jdk15on-1.69.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/org/slf4j/slf4j-api/1.7.31/slf4j-api-1.7.31.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/itextpdf/io/7.2.1/io-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/itextpdf/commons/7.2.1/commons-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+		<copy file="${user.root}/.m2/repository/com/itextpdf/layout/7.2.1/layout-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+	</target>
+</project>
