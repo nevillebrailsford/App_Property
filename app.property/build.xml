@@ -35,7 +35,7 @@
 				<attribute name="Build-Date" value="${property.build.date}" />
 				<attribute name="Build-Number" value="${build.number}" />
 			</manifest>
-			<fileset dir="${user.root}/git/App_Bank/app.bank/target/classes" />
+			<fileset dir="${user.root}/git/App_Property/app.property/target/classes" />
 		</jar>
 		<delete dir="${dir.jarfile}/Property.app_lib" />
 		<mkdir dir="${dir.jarfile}/Property.app_lib" />
