@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
+import application.base.app.gui.PreferencesDialog;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
@@ -37,7 +38,6 @@ import applications.property.gui.dialogs.AddInventoryItemDialog;
 import applications.property.gui.dialogs.AddMonitoredItemDialog;
 import applications.property.gui.dialogs.AddPropertyDialog;
 import applications.property.gui.dialogs.CalendarViewDialog;
-import applications.property.gui.dialogs.PreferencesDialog;
 import applications.property.gui.dialogs.ViewAllItemsDialog;
 import applications.property.gui.dialogs.ViewNotifiedItemsDialog;
 import applications.property.gui.dialogs.ViewOverdueItemsDialog;
