@@ -42,7 +42,7 @@ public class TimerHandler implements NotificationListener {
 	private void handleTimerNotification() {
 		LOGGER.entering(CLASS_NAME, "handleTimerNotification");
 		LocalDateTime now = LocalDateTime.now();
-		String lastTime = IniFile.value(GUIConstants.LAST_TIME);
+		String lastTime = IniFile.value(PropertyGUIConstants.LAST_TIME);
 		if (lastTime.isEmpty()) {
 			lastTime = now.toString();
 			performTimedActions(now);
@@ -75,13 +75,13 @@ public class TimerHandler implements NotificationListener {
 
 	private void sendEmailIfRequired() {
 		LOGGER.entering(CLASS_NAME, "sendEmailIfRequired");
-		if (Boolean.valueOf(IniFile.value(GUIConstants.EMAIL_NOTIFICATION)).booleanValue()) {
+		if (Boolean.valueOf(IniFile.value(PropertyGUIConstants.EMAIL_NOTIFICATION)).booleanValue()) {
 			LOGGER.fine("Email notification is enabled");
 			LocalDate lastSent;
-			if (IniFile.value(GUIConstants.DATE_OF_LAST_EMAIL).trim().isEmpty()) {
+			if (IniFile.value(PropertyGUIConstants.DATE_OF_LAST_EMAIL).trim().isEmpty()) {
 				lastSent = LocalDate.now().minusDays(1);
 			} else {
-				lastSent = LocalDate.parse(IniFile.value(GUIConstants.DATE_OF_LAST_EMAIL));
+				lastSent = LocalDate.parse(IniFile.value(PropertyGUIConstants.DATE_OF_LAST_EMAIL));
 			}
 			List<Property> overdueProperties = PropertyMonitor.instance().propertiesWithOverdueItems();
 			List<Property> notifiedProperties = PropertyMonitor.instance().propertiesWithOverdueNotices();
@@ -149,13 +149,13 @@ public class TimerHandler implements NotificationListener {
 
 	private void updateDateOfLastEmailCheck() {
 		LOGGER.entering(CLASS_NAME, "updateDateOfLastEmailCheck");
-		IniFile.store(GUIConstants.DATE_OF_LAST_EMAIL, LocalDate.now().toString());
+		IniFile.store(PropertyGUIConstants.DATE_OF_LAST_EMAIL, LocalDate.now().toString());
 		LOGGER.exiting(CLASS_NAME, "updateDateOfLastEmailCheck");
 	}
 
 	private void updateLastTime(LocalDateTime now) {
 		LOGGER.entering(CLASS_NAME, "", now);
-		IniFile.store(GUIConstants.LAST_TIME, now.toString());
+		IniFile.store(PropertyGUIConstants.LAST_TIME, now.toString());
 		LOGGER.exiting(CLASS_NAME, "");
 	}
 

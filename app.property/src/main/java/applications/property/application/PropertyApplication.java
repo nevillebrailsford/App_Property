@@ -12,10 +12,12 @@ import javax.swing.SwingUtilities;
 
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
+import application.base.app.gui.ColorProvider;
 import application.base.app.gui.PreferencesDialog;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
+import application.inifile.IniFile;
 import application.notification.Notification;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
@@ -23,9 +25,9 @@ import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
-import applications.property.gui.GUIConstants;
 import applications.property.gui.IApplication;
 import applications.property.gui.PropertyApplicationMenu;
+import applications.property.gui.PropertyGUIConstants;
 import applications.property.gui.TimerHandler;
 import applications.property.gui.actions.PropertyActionFactory;
 import applications.property.gui.changes.AddInventoryItemChange;
@@ -152,14 +154,24 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 
 			@Override
 			public Optional<Color> bottomColor() {
-				Color bottom = GUIConstants.SANDY_BROWN;
-				return Optional.ofNullable(bottom);
+				String bottom = IniFile.value(PropertyGUIConstants.BOTTOM_COLOR);
+				if (bottom.isEmpty() || bottom.equals("default")) {
+					bottom = "sandybrown";
+					IniFile.store(PropertyGUIConstants.BOTTOM_COLOR, bottom);
+				}
+				Color bottomColor = ColorProvider.get(bottom);
+				return Optional.ofNullable(bottomColor);
 			}
 
 			@Override
 			public Optional<Color> topColor() {
-				Color top = GUIConstants.LIGHT_BLUE;
-				return Optional.ofNullable(top);
+				String top = IniFile.value(PropertyGUIConstants.TOP_COLOR);
+				if (top.isEmpty() || top.equals("default")) {
+					top = "lightblue";
+					IniFile.store(PropertyGUIConstants.TOP_COLOR, top);
+				}
+				Color topColor = ColorProvider.get(top);
+				return Optional.ofNullable(topColor);
 			}
 		};
 		return definition;

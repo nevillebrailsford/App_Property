@@ -177,9 +177,7 @@ class PropertyMonitorTest {
 
 	@Test
 	void testRemoveNullProperty() throws InterruptedException {
-		System.out.println("1");
 		synchronized (waitForIO) {
-			System.out.println("2");
 			Exception exc = assertThrows(IllegalArgumentException.class, () -> {
 				PropertyMonitor.instance().removeProperty(null);
 			});

@@ -14,7 +14,7 @@ import javax.swing.JToolTip;
 import javax.swing.Popup;
 import javax.swing.PopupFactory;
 
-import applications.property.gui.GUIConstants;
+import applications.property.gui.PropertyGUIConstants;
 import applications.property.storage.PropertyMonitor;
 
 public class YearView extends JPanel {
@@ -23,7 +23,7 @@ public class YearView extends JPanel {
 	public static final int NUMBER_OF_COLUMNS = 53;
 
 	private static final DateTimeFormatter toolTipFormatter = DateTimeFormatter
-			.ofPattern(GUIConstants.dateFormatForCalendarView);
+			.ofPattern(PropertyGUIConstants.dateFormatForCalendarView);
 	private static final int GAP = 4;
 	private DateSquare[] dateSquares = new DateSquare[NUMBER_OF_COLUMNS * 7];
 
