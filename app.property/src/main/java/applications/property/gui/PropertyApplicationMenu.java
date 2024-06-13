@@ -30,6 +30,9 @@ public class PropertyApplicationMenu extends JMenuBar {
 	private JMenuItem addProperty;
 	private JMenuItem addMonitoredItem;
 	private JMenuItem addInventoryItem;
+	private JMenu changeMenu = new JMenu("Change");
+	private JMenuItem changeMonitoredItem;
+	private JMenuItem changeInventoryItem;
 	private JMenu removeMenu = new JMenu("Remove");
 	private JMenuItem removeProperty;
 	private JMenuItem removeMonitoredItem;
@@ -64,6 +67,7 @@ public class PropertyApplicationMenu extends JMenuBar {
 		editMenu.add(redo);
 		editMenu.addSeparator();
 		editMenu.add(addMenu);
+		editMenu.add(changeMenu);
 		editMenu.add(removeMenu);
 		addProperty = new JMenuItem(actionFactory.addPropertyAction());
 		addMonitoredItem = new JMenuItem(actionFactory.addMonitoredItemAction());
@@ -71,6 +75,10 @@ public class PropertyApplicationMenu extends JMenuBar {
 		addMenu.add(addProperty);
 		addMenu.add(addMonitoredItem);
 		addMenu.add(addInventoryItem);
+		changeMonitoredItem = new JMenuItem(actionFactory.replaceMonitoredItemAction());
+		changeInventoryItem = new JMenuItem(actionFactory.replaceInventoryItemAction());
+		changeMenu.add(changeMonitoredItem);
+		changeMenu.add(changeInventoryItem);
 		removeProperty = new JMenuItem(actionFactory.removePropertyAction());
 		removeMonitoredItem = new JMenuItem(actionFactory.removeMonitoredItemAction());
 		removeInventoryItem = new JMenuItem(actionFactory.removeInventoryItemAction());
@@ -121,6 +129,18 @@ public class PropertyApplicationMenu extends JMenuBar {
 		LOGGER.entering(CLASS_NAME, "enableAddMonitoredItem", enabled);
 		addInventoryItem.setEnabled(enabled);
 		LOGGER.exiting(CLASS_NAME, "enableAddMonitoredItem");
+	}
+
+	public void enableChangeMonitoredItem(boolean enabled) {
+		LOGGER.entering(CLASS_NAME, "enableReplaceMonitoredItem", enabled);
+		changeMonitoredItem.setEnabled(enabled);
+		LOGGER.exiting(CLASS_NAME, "enableReplaceMonitoredItem");
+	}
+
+	public void enableChangeInventoryItem(boolean enabled) {
+		LOGGER.entering(CLASS_NAME, "enableReplaceMonitoredItem", enabled);
+		changeInventoryItem.setEnabled(enabled);
+		LOGGER.exiting(CLASS_NAME, "enableReplaceMonitoredItem");
 	}
 
 	public void enableRemoveMonitoredItem(boolean enabled) {

@@ -33,6 +33,8 @@ import applications.property.gui.actions.PropertyActionFactory;
 import applications.property.gui.changes.AddInventoryItemChange;
 import applications.property.gui.changes.AddMonitoredItemChange;
 import applications.property.gui.changes.AddPropertyChange;
+import applications.property.gui.changes.ChangeInventoryItemChange;
+import applications.property.gui.changes.ChangeMonitoredItemChange;
 import applications.property.gui.changes.RemoveInventoryItemChange;
 import applications.property.gui.changes.RemoveMonitoredItemChange;
 import applications.property.gui.changes.RemovePropertyChange;
@@ -40,6 +42,8 @@ import applications.property.gui.dialogs.AddInventoryItemDialog;
 import applications.property.gui.dialogs.AddMonitoredItemDialog;
 import applications.property.gui.dialogs.AddPropertyDialog;
 import applications.property.gui.dialogs.CalendarViewDialog;
+import applications.property.gui.dialogs.ChangeInventoryItemDialog;
+import applications.property.gui.dialogs.ChangeMonitoredItemDialog;
 import applications.property.gui.dialogs.ViewAllItemsDialog;
 import applications.property.gui.dialogs.ViewNotifiedItemsDialog;
 import applications.property.gui.dialogs.ViewOverdueItemsDialog;
@@ -280,6 +284,24 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 	}
 
 	@Override
+	public void changeMonitoredItemAction() {
+		LOGGER.entering(CLASS_NAME, "changeMonitoredItemAction");
+		MonitoredItem item = selectedMonitoredItem();
+		ChangeMonitoredItemDialog dialog = new ChangeMonitoredItemDialog(parent, item);
+		int result = dialog.displayAndWait();
+		if (result == ChangeMonitoredItemDialog.OK_PRESSED) {
+			MonitoredItem newItem = dialog.item();
+			newItem.setOwner(item.owner());
+			ChangeMonitoredItemChange changeMonitoredItemChange = new ChangeMonitoredItemChange(item, newItem);
+			ThreadServices.instance().executor().submit(() -> {
+				ChangeManager.instance().execute(changeMonitoredItemChange);
+			});
+		}
+		dialog.dispose();
+		LOGGER.exiting(CLASS_NAME, "changeMonitoredItemAction");
+	}
+
+	@Override
 	public void removeMonitoredItemAction() {
 		LOGGER.entering(CLASS_NAME, "removeMonitoredItemAction");
 		MonitoredItem item = selectedMonitoredItem();
@@ -310,6 +332,24 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 		}
 		dialog.dispose();
 		LOGGER.exiting(CLASS_NAME, "addInventoryItemAction");
+	}
+
+	@Override
+	public void changeInventoryItemAction() {
+		LOGGER.entering(CLASS_NAME, "replaceMonitoredItemAction");
+		InventoryItem item = selectedInventoryItem();
+		ChangeInventoryItemDialog dialog = new ChangeInventoryItemDialog(parent, item);
+		int result = dialog.displayAndWait();
+		if (result == ChangeInventoryItemDialog.OK_PRESSED) {
+			InventoryItem newItem = dialog.item();
+			newItem.setOwner(item.owner());
+			ChangeInventoryItemChange changeInventoryItemChange = new ChangeInventoryItemChange(item, newItem);
+			ThreadServices.instance().executor().submit(() -> {
+				ChangeManager.instance().execute(changeInventoryItemChange);
+			});
+		}
+		dialog.dispose();
+		LOGGER.exiting(CLASS_NAME, "replaceMonitoredItemAction");
 	}
 
 	@Override

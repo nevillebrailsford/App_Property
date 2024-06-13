@@ -34,4 +34,8 @@ public interface IApplication {
 	public void viewOverdueItemsAction();
 
 	public void helpAboutAction();
+
+	public void changeInventoryItemAction();
+
+	public void changeMonitoredItemAction();
 }

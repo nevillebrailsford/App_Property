@@ -206,22 +206,23 @@ public class PropertyPanel extends ColoredPanel {
 	private void updateMenuItems() {
 		menuBar.enableRedo(ChangeManager.instance().redoable());
 		menuBar.enableUndo(ChangeManager.instance().undoable());
-		menuBar.enableRemoveMonitoredItem(false);
 		menuBar.enableAddMonitoredItem(false);
+		menuBar.enableChangeMonitoredItem(false);
+		menuBar.enableRemoveMonitoredItem(false);
+		menuBar.enableAddInventoryItem(false);
+		menuBar.enableChangeInventoryItem(false);
+		menuBar.enableRemoveInventoryItem(false);
 		if (isMonitoredPanelSelected()) {
 			menuBar.enableAddMonitoredItem(true);
-			menuBar.enableAddInventoryItem(false);
-			menuBar.enableRemoveInventoryItem(false);
-			if (monitoredItemsPanel.isMonitoredItemPresent()) {
+			if (monitoredItemsPanel.isItemSelected()) {
+				menuBar.enableChangeMonitoredItem(true);
 				menuBar.enableRemoveMonitoredItem(true);
 			}
 		} else {
-			menuBar.enableAddMonitoredItem(false);
-			menuBar.enableRemoveMonitoredItem(false);
 			menuBar.enableAddInventoryItem(true);
-			if (inventoryItemsPanel.isInventoryItemPresent()) {
+			if (inventoryItemsPanel.isInventoryItemSelected()) {
+				menuBar.enableChangeInventoryItem(true);
 				menuBar.enableRemoveInventoryItem(true);
-
 			}
 		}
 	}

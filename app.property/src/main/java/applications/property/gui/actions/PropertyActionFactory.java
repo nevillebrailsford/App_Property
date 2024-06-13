@@ -15,6 +15,8 @@ public class PropertyActionFactory {
 	private AddMonitoredItemAction addMonitoredItemAction = null;
 	private AddInventoryItemAction addInventoryItemAction = null;
 	private RemovePropertyAction removePropertyAction = null;
+	private ChangeMonitoredItemAction replaceMonitoredItemAction = null;
+	private ChangeInventoryItemAction replaceInventoryItemAction = null;
 	private RemoveMonitoredItemAction removeMonitoredItemAction = null;
 	private RemoveInventoryItemAction removeInventoryItemAction = null;
 	private CalendarViewAction calendarViewAction = null;
@@ -95,6 +97,20 @@ public class PropertyActionFactory {
 			addInventoryItemAction = new AddInventoryItemAction(application);
 		}
 		return addInventoryItemAction;
+	}
+
+	public ChangeMonitoredItemAction replaceMonitoredItemAction() {
+		if (replaceMonitoredItemAction == null) {
+			replaceMonitoredItemAction = new ChangeMonitoredItemAction(application);
+		}
+		return replaceMonitoredItemAction;
+	}
+
+	public ChangeInventoryItemAction replaceInventoryItemAction() {
+		if (replaceInventoryItemAction == null) {
+			replaceInventoryItemAction = new ChangeInventoryItemAction(application);
+		}
+		return replaceInventoryItemAction;
 	}
 
 	public RemovePropertyAction removePropertyAction() {

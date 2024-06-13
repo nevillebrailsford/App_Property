@@ -586,4 +586,18 @@ public class PropertyMonitor {
 		return found;
 	}
 
+	public void changeItem(MonitoredItem original, MonitoredItem replacement) {
+		LOGGER.entering(CLASS_NAME, "changeItem", new Object[] { original, replacement });
+		removeItem(original);
+		addItem(replacement);
+		LOGGER.exiting(CLASS_NAME, "changeItem");
+	}
+
+	public void changeItem(InventoryItem original, InventoryItem replacement) {
+		LOGGER.entering(CLASS_NAME, "changeItem", new Object[] { original, replacement });
+		removeItem(original);
+		addItem(replacement);
+		LOGGER.exiting(CLASS_NAME, "changeItem");
+	}
+
 }

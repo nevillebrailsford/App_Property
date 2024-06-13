@@ -54,6 +54,7 @@ public class InventoryItemsPanel extends ColoredPanel {
 			} else {
 				clearSelection.setEnabled(true);
 			}
+			updateMenuItems();
 		});
 		JScrollPane scrollPane = new JScrollPane(itemsTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -68,6 +69,7 @@ public class InventoryItemsPanel extends ColoredPanel {
 			itemsTable.getSelectionModel().clearSelection();
 			updateMenuItems();
 		});
+		updateMenuItems();
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
@@ -100,8 +102,16 @@ public class InventoryItemsPanel extends ColoredPanel {
 		return isInventoryItemPresent;
 	}
 
+	public boolean isInventoryItemSelected() {
+		LOGGER.entering(CLASS_NAME, "isInventoryItemSelected");
+		boolean isInventoryItemSelected = itemsTable.getSelectedRows().length > 0;
+		LOGGER.exiting(CLASS_NAME, "isInventoryItemSelected", isInventoryItemSelected);
+		return isInventoryItemSelected;
+	}
+
 	private void updateMenuItems() {
-		menuBar.enableRemoveInventoryItem(isInventoryItemPresent());
+		menuBar.enableRemoveInventoryItem(isInventoryItemSelected());
+		menuBar.enableChangeInventoryItem(isInventoryItemSelected());
 	}
 
 }

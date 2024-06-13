@@ -60,6 +60,7 @@ public class MonitoredItemsPanel extends JPanel {
 				clearSelection.setEnabled(true);
 				markComplete.setEnabled(true);
 			}
+			updateMenuItems();
 		});
 		JScrollPane scrollPane = new JScrollPane(itemsTable);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -90,6 +91,7 @@ public class MonitoredItemsPanel extends JPanel {
 			itemsTable.getSelectionModel().clearSelection();
 			updateMenuItems();
 		});
+		updateMenuItems();
 		LOGGER.exiting(CLASS_NAME, "init");
 	}
 
@@ -137,7 +139,8 @@ public class MonitoredItemsPanel extends JPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRemoveMonitoredItem(isMonitoredItemPresent());
+		menuBar.enableRemoveMonitoredItem(isItemSelected());
+		menuBar.enableChangeMonitoredItem(isItemSelected());
 	}
 
 }
