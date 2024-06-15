@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import application.audit.AuditService;
 import application.definition.ApplicationConfiguration;
 import application.storage.AbstractLoadData;
 import application.storage.XMLErrorHandler;
@@ -34,7 +35,9 @@ public class PropertyLoad extends AbstractLoadData {
 	public void readData() throws IOException {
 		LOGGER.entering(CLASS_NAME, "readData");
 		try (InputStream archive = new BufferedInputStream(new FileInputStream(fileName()))) {
+			AuditService.suspend();
 			readDataFrom(archive);
+			AuditService.resume();
 		} catch (Exception e) {
 			IOException exc = new IOException("PropertyRead: Exception occurred - " + e.getMessage(), e);
 			LOGGER.throwing(CLASS_NAME, "readData", exc);
