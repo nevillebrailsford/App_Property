@@ -10,12 +10,11 @@ import javax.swing.JTabbedPane;
 
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
-import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
-import applications.property.gui.IApplication;
-import applications.property.gui.PropertyApplicationMenu;
+import applications.property.application.IPropertyApplication;
+import applications.property.gui.actions.ActionStatusController;
 import applications.property.gui.actions.PropertyActionFactory;
 import applications.property.model.InventoryItem;
 import applications.property.model.InventoryItemNotificationType;
@@ -35,7 +34,6 @@ public class PropertyPanel extends ColoredPanel {
 	private JTabbedPane propertyTabbedPane;
 	private MonitoredItemsPanel monitoredItemsPanel;
 	private InventoryItemsPanel inventoryItemsPanel;
-	private PropertyApplicationMenu menuBar;
 	private PropertyActionFactory actionFactory;
 	private JButton exit;
 
@@ -89,12 +87,11 @@ public class PropertyPanel extends ColoredPanel {
 		LOGGER.exiting(CLASS_NAME, "removeNotify");
 	};
 
-	public PropertyPanel(Property property, PropertyApplicationMenu menuBar, IApplication application) {
+	public PropertyPanel(Property property, IPropertyApplication application) {
 		LOGGER.entering(CLASS_NAME, "init", property);
 		actionFactory = PropertyActionFactory.instance(application);
 		setLayout(new BorderLayout());
 		this.property = property;
-		this.menuBar = menuBar;
 		AddressLabel addressLabel = new AddressLabel(property.address());
 		add(addressLabel, BorderLayout.NORTH);
 		propertyTabbedPane = new ColoredTabbedPane();
@@ -102,13 +99,13 @@ public class PropertyPanel extends ColoredPanel {
 			updateMenuItems();
 		});
 		add(propertyTabbedPane, BorderLayout.CENTER);
-		monitoredItemsPanel = new MonitoredItemsPanel(this.property.monitoredItems(), menuBar);
-		inventoryItemsPanel = new InventoryItemsPanel(this.property.inventoryItems(), menuBar);
+		monitoredItemsPanel = new MonitoredItemsPanel(this.property.monitoredItems());
+		inventoryItemsPanel = new InventoryItemsPanel(this.property.inventoryItems());
 		propertyTabbedPane.addTab("Monitored Items", monitoredItemsPanel);
 		propertyTabbedPane.addTab("Inventory Items", inventoryItemsPanel);
 		JPanel statusPanel = new BottomColoredPanel();
 		statusPanel.setLayout(new FlowLayout());
-		exit = new JButton(actionFactory.exitAction());
+		exit = new JButton(actionFactory.exitApplicationAction());
 		statusPanel.add(exit);
 		add(statusPanel, BorderLayout.PAGE_END);
 		addListeners();
@@ -204,25 +201,23 @@ public class PropertyPanel extends ColoredPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRedo(ChangeManager.instance().redoable());
-		menuBar.enableUndo(ChangeManager.instance().undoable());
-		menuBar.enableAddMonitoredItem(false);
-		menuBar.enableChangeMonitoredItem(false);
-		menuBar.enableRemoveMonitoredItem(false);
-		menuBar.enableAddInventoryItem(false);
-		menuBar.enableChangeInventoryItem(false);
-		menuBar.enableRemoveInventoryItem(false);
+		ActionStatusController.enableAddMonitoredItem(false);
+		ActionStatusController.enableChangeMonitoredItem(false);
+		ActionStatusController.enableRemoveMonitoredItem(false);
+		ActionStatusController.enableAddInventoryItem(false);
+		ActionStatusController.enableChangeInventoryItem(false);
+		ActionStatusController.enableRemoveInventoryItem(false);
 		if (isMonitoredPanelSelected()) {
-			menuBar.enableAddMonitoredItem(true);
+			ActionStatusController.enableAddMonitoredItem(true);
 			if (monitoredItemsPanel.isItemSelected()) {
-				menuBar.enableChangeMonitoredItem(true);
-				menuBar.enableRemoveMonitoredItem(true);
+				ActionStatusController.enableChangeMonitoredItem(true);
+				ActionStatusController.enableRemoveMonitoredItem(true);
 			}
 		} else {
-			menuBar.enableAddInventoryItem(true);
+			ActionStatusController.enableAddInventoryItem(true);
 			if (inventoryItemsPanel.isInventoryItemSelected()) {
-				menuBar.enableChangeInventoryItem(true);
-				menuBar.enableRemoveInventoryItem(true);
+				ActionStatusController.enableChangeInventoryItem(true);
+				ActionStatusController.enableRemoveInventoryItem(true);
 			}
 		}
 	}

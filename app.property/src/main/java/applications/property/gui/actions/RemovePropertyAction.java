@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class RemovePropertyAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public RemovePropertyAction(IApplication application) {
+	public RemovePropertyAction(IPropertyApplication application) {
 		super("Property");
 		this.application = application;
 	}

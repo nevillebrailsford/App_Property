@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 import application.model.Address;
 import application.model.PostCode;
 
-class InventoryItemTest {
+public class InventoryItemTest {
 
 	private Address address;
 	private PostCode postCode;

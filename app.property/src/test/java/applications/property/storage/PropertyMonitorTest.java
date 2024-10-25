@@ -29,7 +29,7 @@ import application.storage.StoreState;
 import applications.property.model.Property;
 import applications.property.model.PropertyNotificationType;
 
-class PropertyMonitorTest {
+public class PropertyMonitorTest {
 
 	Property p;
 	private static final PostCode postCode1 = new PostCode("CW3 9ST");

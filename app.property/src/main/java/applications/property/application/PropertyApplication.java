@@ -13,7 +13,6 @@ import javax.swing.SwingUtilities;
 import application.base.app.ApplicationBaseForGUI;
 import application.base.app.Parameters;
 import application.base.app.gui.ColorProvider;
-import application.base.app.gui.PreferencesDialog;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.definition.ApplicationDefinition;
@@ -21,14 +20,14 @@ import application.inifile.IniFile;
 import application.notification.Notification;
 import application.notification.NotificationCentre;
 import application.notification.NotificationListener;
+import application.preferences.PreferencesDialog;
 import application.report.ReportNotificationType;
 import application.storage.StoreDetails;
 import application.thread.ThreadServices;
 import application.timer.TimerService;
-import applications.property.gui.IApplication;
-import applications.property.gui.PropertyApplicationMenu;
 import applications.property.gui.PropertyGUIConstants;
 import applications.property.gui.TimerHandler;
+import applications.property.gui.actions.ActionStatusController;
 import applications.property.gui.actions.PropertyActionFactory;
 import applications.property.gui.changes.AddInventoryItemChange;
 import applications.property.gui.changes.AddMonitoredItemChange;
@@ -49,6 +48,7 @@ import applications.property.gui.dialogs.ViewNotifiedItemsDialog;
 import applications.property.gui.dialogs.ViewOverdueItemsDialog;
 import applications.property.gui.modified.MainPropertyTabbedPane;
 import applications.property.gui.modified.PropertyPanel;
+import applications.property.menu.PropertyApplicationMenuBar;
 import applications.property.model.InventoryItem;
 import applications.property.model.MonitoredItem;
 import applications.property.model.Property;
@@ -58,13 +58,13 @@ import applications.property.report.ApplicationItemReport;
 import applications.property.storage.PropertyLoad;
 import applications.property.storage.PropertyMonitor;
 
-public class PropertyApplication extends ApplicationBaseForGUI implements IApplication {
+public class PropertyApplication extends ApplicationBaseForGUI implements IPropertyApplication {
 	private static final long serialVersionUID = 1L;
 	private static final String CLASS_NAME = PropertyApplication.class.getName();
 	private static Logger LOGGER = null;
 
 	private MainPropertyTabbedPane mainPanel = null;
-	private PropertyApplicationMenu menuBar;
+	private PropertyApplicationMenuBar menuBar;
 	private JFrame parent;
 
 	private NotificationListener propertyAddedListener = (Notification notification) -> {
@@ -113,10 +113,9 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 		System.out.println(
 				"Application " + ApplicationConfiguration.applicationDefinition().applicationName() + " is starting");
 		PropertyActionFactory.instance(this);
-		menuBar = new PropertyApplicationMenu(this);
+		menuBar = new PropertyApplicationMenuBar(this);
 		mainPanel = new MainPropertyTabbedPane();
 		this.parent = parent;
-		setLookAndFeel();
 		Dimension size = new Dimension(PropertyPanel.WIDTH, PropertyPanel.HEIGHT);
 		mainPanel.setMaximumSize(size);
 		mainPanel.setMinimumSize(size);
@@ -147,9 +146,10 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 	}
 
 	@Override
-	public void configureStoreDetails() {
+	public StoreDetails configureStoreDetails() {
 		dataLoader = new PropertyLoad();
-		storeDetails = new StoreDetails(dataLoader, Constants.MODEL, Constants.PROPERTY_FILE);
+		StoreDetails storeDetails = new StoreDetails(dataLoader, Constants.MODEL, Constants.PROPERTY_FILE);
+		return storeDetails;
 	}
 
 	@Override
@@ -191,16 +191,6 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 	}
 
 	@Override
-	public void exitApplicationAction() {
-		LOGGER.entering(CLASS_NAME, "exitApplicationAction");
-		try {
-			shutdown();
-		} catch (Exception e) {
-		}
-		LOGGER.exiting(CLASS_NAME, "exitApplicationAction");
-	}
-
-	@Override
 	public void printItemsAction() {
 		LOGGER.entering(CLASS_NAME, "printItemsAction");
 		ThreadServices.instance().executor().execute(new ApplicationItemReport(
@@ -214,24 +204,6 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 		ThreadServices.instance().executor().execute(new ApplicationInventoryReport(
 				ApplicationConfiguration.applicationDefinition().applicationName() + ".inventory.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printInventoryAction");
-	}
-
-	@Override
-	public void undoAction() {
-		LOGGER.entering(CLASS_NAME, "undoAction");
-		ThreadServices.instance().executor().submit(() -> {
-			ChangeManager.instance().undo();
-		});
-		LOGGER.exiting(CLASS_NAME, "undoAction");
-	}
-
-	@Override
-	public void redoAction() {
-		LOGGER.entering(CLASS_NAME, "redoAction");
-		ThreadServices.instance().executor().submit(() -> {
-			ChangeManager.instance().redo();
-		});
-		LOGGER.exiting(CLASS_NAME, "redoAction");
 	}
 
 	@Override
@@ -400,16 +372,6 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 		LOGGER.exiting(CLASS_NAME, "viewOverdueItemsAction");
 	}
 
-	@Override
-	public void helpAboutAction() {
-		LOGGER.entering(CLASS_NAME, "helpAboutAction");
-		String applicationName = ApplicationConfiguration.applicationDefinition().applicationName();
-		String title = "About " + applicationName;
-		String message = getBuildInformation(applicationName);
-		JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
-		LOGGER.exiting(CLASS_NAME, "helpAboutAction");
-	}
-
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -423,9 +385,7 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 	}
 
 	public void updateMenuItemStatus() {
-		menuBar.enableUndo(ChangeManager.instance().undoable());
-		menuBar.enableRedo(ChangeManager.instance().redoable());
-		menuBar.propertiesExist(propertiesExist());
+		ActionStatusController.propertiesExist(propertiesExist());
 	}
 
 	private void addPropertyNotification(Notification notification) {
@@ -451,7 +411,7 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 
 	private void addPropertyTab(Property property) {
 		LOGGER.entering(CLASS_NAME, "addPropertyTab", property);
-		PropertyPanel propertyPane = new PropertyPanel(property, menuBar, this);
+		PropertyPanel propertyPane = new PropertyPanel(property, this);
 		mainPanel.addTab(property.address().postCode().toString(), propertyPane);
 		updateMenuItemStatus();
 		LOGGER.exiting(CLASS_NAME, "addPropertyTab");
@@ -488,21 +448,4 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IAppli
 		return item;
 	}
 
-	private String getBuildInformation(String applicationName) {
-		LOGGER.entering(CLASS_NAME, "getBuildInformation", applicationName);
-		String result = "";
-		StringBuilder builder = new StringBuilder(applicationName);
-		try {
-			builder.append("\nBuild: ").append(ApplicationDefinition.getFromManifest("Build-Number", getClass())
-					.orElse("Could not be determined"));
-			builder.append("\nBuild Date: ").append(
-					ApplicationDefinition.getFromManifest("Build-Date", getClass()).orElse("Could not be determined"));
-		} catch (Exception e) {
-			builder.append("\nUnable to gather build version and date information\ndue to exception " + e.getMessage());
-			LOGGER.fine("Caught exception: " + e.getMessage());
-		}
-		result = builder.toString();
-		LOGGER.exiting(CLASS_NAME, "getBuildInformation", result);
-		return result;
-	}
 }

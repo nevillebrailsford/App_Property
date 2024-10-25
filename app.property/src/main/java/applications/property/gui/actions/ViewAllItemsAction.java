@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class ViewAllItemsAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public ViewAllItemsAction(IApplication application) {
+	public ViewAllItemsAction(IPropertyApplication application) {
 		super("All Items");
 		this.application = application;
 	}

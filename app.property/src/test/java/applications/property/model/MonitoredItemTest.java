@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
 
 import application.model.Period;
 
-class MonitoredItemTest {
+public class MonitoredItemTest {
 
 	private MonitoredItem testItem;
 	private LocalDate startTest;

@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class ViewOverdueItemsAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public ViewOverdueItemsAction(IApplication application) {
+	public ViewOverdueItemsAction(IPropertyApplication application) {
 		super("Overdue Items");
 		this.application = application;
 	}

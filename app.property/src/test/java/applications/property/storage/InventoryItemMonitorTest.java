@@ -31,7 +31,7 @@ import applications.property.model.InventoryItem;
 import applications.property.model.InventoryItemNotificationType;
 import applications.property.model.Property;
 
-class InventoryItemMonitorTest {
+public class InventoryItemMonitorTest {
 
 	private static final PostCode postCode1 = new PostCode("CW3 9ST");
 	private static final String LINE1 = "99 The Street";

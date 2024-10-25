@@ -1,7 +1,8 @@
-package applications.property.gui;
+package applications.property.application;
 
-public interface IApplication {
-	public void preferencesAction();
+import application.base.app.IApplication;
+
+public interface IPropertyApplication extends IApplication {
 
 	public void addPropertyAction();
 
@@ -15,12 +16,6 @@ public interface IApplication {
 
 	public void removeInventoryItemAction();
 
-	public void undoAction();
-
-	public void redoAction();
-
-	public void exitApplicationAction();
-
 	public void printItemsAction();
 
 	public void printInventoryAction();
@@ -32,8 +27,6 @@ public interface IApplication {
 	public void viewNotifiedItemsAction();
 
 	public void viewOverdueItemsAction();
-
-	public void helpAboutAction();
 
 	public void changeInventoryItemAction();
 

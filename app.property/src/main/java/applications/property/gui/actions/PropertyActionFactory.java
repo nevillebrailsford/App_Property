@@ -1,16 +1,20 @@
 package applications.property.gui.actions;
 
-import applications.property.gui.IApplication;
+import java.util.logging.Logger;
 
-public class PropertyActionFactory {
-	private IApplication application;
-	private static PropertyActionFactory factory = null;
-	private PreferencesAction preferencesAction = null;
+import javax.swing.JOptionPane;
+
+import application.action.BaseActionFactory;
+import application.definition.ApplicationConfiguration;
+import applications.property.application.IPropertyApplication;
+
+public class PropertyActionFactory extends BaseActionFactory {
+	private static final String CLASS_NAME = PropertyActionFactory.class.getName();
+	private static Logger LOGGER = ApplicationConfiguration.logger();
+	private static PropertyActionFactory instance = null;
+
 	private PrintItemsAction printItemsAction = null;
 	private PrintInventoryAction printInventoryAction = null;
-	private ExitApplicationAction exitAction = null;
-	private UndoAction undoAction = null;
-	private RedoAction redoAction = null;
 	private AddPropertyAction addPropertyAction = null;
 	private AddMonitoredItemAction addMonitoredItemAction = null;
 	private AddInventoryItemAction addInventoryItemAction = null;
@@ -23,150 +27,122 @@ public class PropertyActionFactory {
 	private ViewAllItemsAction viewAllItemsAction = null;
 	private ViewNotifiedItemsAction viewNotifiedItemsAction = null;
 	private ViewOverdueItemsAction viewOverdueItemsAction = null;
-	private HelpAboutAction helpAboutAction = null;
 
-	public static PropertyActionFactory instance(IApplication application) {
-		if (factory == null) {
-			factory = new PropertyActionFactory(application);
+	public static PropertyActionFactory instance(IPropertyApplication... application) {
+		LOGGER.entering(CLASS_NAME, "instance", application);
+		if (instance == null) {
+			if (application.length == 0) {
+				JOptionPane.showMessageDialog(null, "Application was not specified on first call to instance.",
+						"ActionFactory error.", JOptionPane.ERROR_MESSAGE);
+				System.exit(0);
+			}
+			instance = new PropertyActionFactory();
+			instance.application = application[0];
 		}
-		return factory;
+		LOGGER.exiting(CLASS_NAME, "instance");
+		return instance;
 	}
 
-	private PropertyActionFactory(IApplication application) {
-		this.application = application;
-	}
-
-	public PreferencesAction preferencesAction() {
-		if (preferencesAction == null) {
-			preferencesAction = new PreferencesAction(application);
-		}
-		return preferencesAction;
+	private PropertyActionFactory() {
+		super();
 	}
 
 	public PrintItemsAction printItemsAction() {
 		if (printItemsAction == null) {
-			printItemsAction = new PrintItemsAction(application);
+			printItemsAction = new PrintItemsAction((IPropertyApplication) application);
 		}
 		return printItemsAction;
 	}
 
 	public PrintInventoryAction printInventoryAction() {
 		if (printInventoryAction == null) {
-			printInventoryAction = new PrintInventoryAction(application);
+			printInventoryAction = new PrintInventoryAction((IPropertyApplication) application);
 		}
 		return printInventoryAction;
 	}
 
-	public ExitApplicationAction exitAction() {
-		if (exitAction == null) {
-			exitAction = new ExitApplicationAction(application);
-		}
-		return exitAction;
-	}
-
-	public UndoAction undoAction() {
-		if (undoAction == null) {
-			undoAction = new UndoAction(application);
-		}
-		return undoAction;
-	}
-
-	public RedoAction redoAction() {
-		if (redoAction == null) {
-			redoAction = new RedoAction(application);
-		}
-		return redoAction;
-	}
-
 	public AddPropertyAction addPropertyAction() {
 		if (addPropertyAction == null) {
-			addPropertyAction = new AddPropertyAction(application);
+			addPropertyAction = new AddPropertyAction((IPropertyApplication) application);
 		}
 		return addPropertyAction;
 	}
 
 	public AddMonitoredItemAction addMonitoredItemAction() {
 		if (addMonitoredItemAction == null) {
-			addMonitoredItemAction = new AddMonitoredItemAction(application);
+			addMonitoredItemAction = new AddMonitoredItemAction((IPropertyApplication) application);
 		}
 		return addMonitoredItemAction;
 	}
 
 	public AddInventoryItemAction addInventoryItemAction() {
 		if (addInventoryItemAction == null) {
-			addInventoryItemAction = new AddInventoryItemAction(application);
+			addInventoryItemAction = new AddInventoryItemAction((IPropertyApplication) application);
 		}
 		return addInventoryItemAction;
 	}
 
 	public ChangeMonitoredItemAction replaceMonitoredItemAction() {
 		if (replaceMonitoredItemAction == null) {
-			replaceMonitoredItemAction = new ChangeMonitoredItemAction(application);
+			replaceMonitoredItemAction = new ChangeMonitoredItemAction((IPropertyApplication) application);
 		}
 		return replaceMonitoredItemAction;
 	}
 
 	public ChangeInventoryItemAction replaceInventoryItemAction() {
 		if (replaceInventoryItemAction == null) {
-			replaceInventoryItemAction = new ChangeInventoryItemAction(application);
+			replaceInventoryItemAction = new ChangeInventoryItemAction((IPropertyApplication) application);
 		}
 		return replaceInventoryItemAction;
 	}
 
 	public RemovePropertyAction removePropertyAction() {
 		if (removePropertyAction == null) {
-			removePropertyAction = new RemovePropertyAction(application);
+			removePropertyAction = new RemovePropertyAction((IPropertyApplication) application);
 		}
 		return removePropertyAction;
 	}
 
 	public RemoveMonitoredItemAction removeMonitoredItemAction() {
 		if (removeMonitoredItemAction == null) {
-			removeMonitoredItemAction = new RemoveMonitoredItemAction(application);
+			removeMonitoredItemAction = new RemoveMonitoredItemAction((IPropertyApplication) application);
 		}
 		return removeMonitoredItemAction;
 	}
 
 	public RemoveInventoryItemAction removeInventoryItemAction() {
 		if (removeInventoryItemAction == null) {
-			removeInventoryItemAction = new RemoveInventoryItemAction(application);
+			removeInventoryItemAction = new RemoveInventoryItemAction((IPropertyApplication) application);
 		}
 		return removeInventoryItemAction;
 	}
 
 	public CalendarViewAction calendarViewAction() {
 		if (calendarViewAction == null) {
-			calendarViewAction = new CalendarViewAction(application);
+			calendarViewAction = new CalendarViewAction((IPropertyApplication) application);
 		}
 		return calendarViewAction;
 	}
 
 	public ViewAllItemsAction viewAllItemsAction() {
 		if (viewAllItemsAction == null) {
-			viewAllItemsAction = new ViewAllItemsAction(application);
+			viewAllItemsAction = new ViewAllItemsAction((IPropertyApplication) application);
 		}
 		return viewAllItemsAction;
 	}
 
 	public ViewNotifiedItemsAction viewNotifiedItemsAction() {
 		if (viewNotifiedItemsAction == null) {
-			viewNotifiedItemsAction = new ViewNotifiedItemsAction(application);
+			viewNotifiedItemsAction = new ViewNotifiedItemsAction((IPropertyApplication) application);
 		}
 		return viewNotifiedItemsAction;
 	}
 
 	public ViewOverdueItemsAction viewOverdueItemsAction() {
 		if (viewOverdueItemsAction == null) {
-			viewOverdueItemsAction = new ViewOverdueItemsAction(application);
+			viewOverdueItemsAction = new ViewOverdueItemsAction((IPropertyApplication) application);
 		}
 		return viewOverdueItemsAction;
-	}
-
-	public HelpAboutAction helpAboutAction() {
-		if (helpAboutAction == null) {
-			helpAboutAction = new HelpAboutAction(application);
-		}
-		return helpAboutAction;
 	}
 
 }

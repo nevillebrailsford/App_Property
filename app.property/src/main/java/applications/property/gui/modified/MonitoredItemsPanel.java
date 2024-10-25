@@ -17,7 +17,7 @@ import application.base.app.gui.BottomColoredPanel;
 import application.change.ChangeManager;
 import application.definition.ApplicationConfiguration;
 import application.thread.ThreadServices;
-import applications.property.gui.PropertyApplicationMenu;
+import applications.property.gui.actions.ActionStatusController;
 import applications.property.gui.changes.ReplaceMonitoredItemChange;
 import applications.property.gui.dialogs.MarkItemCompleteDialog;
 import applications.property.gui.models.Description;
@@ -33,15 +33,13 @@ public class MonitoredItemsPanel extends JPanel {
 	private MonitoredItemDateCellRenderer dateCellRenderer = new MonitoredItemDateCellRenderer();
 	private MonitoredItemDescriptionCellRenderer descriptionCellRenderer = new MonitoredItemDescriptionCellRenderer();
 	private MonitoredItemsTableModel model;
-	private PropertyApplicationMenu menuBar;
 	private JButton clearSelection = new JButton("Clear selection");
 	private JButton markComplete = new JButton("Mark Complete");
 
 	JTable itemsTable;
 
-	public MonitoredItemsPanel(List<MonitoredItem> items, PropertyApplicationMenu menuBar) {
+	public MonitoredItemsPanel(List<MonitoredItem> items) {
 		LOGGER.entering(CLASS_NAME, "init", items);
-		this.menuBar = menuBar;
 		setLayout(new BorderLayout());
 		model = new MonitoredItemsTableModel(items);
 		clearSelection.setEnabled(false);
@@ -139,8 +137,8 @@ public class MonitoredItemsPanel extends JPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRemoveMonitoredItem(isItemSelected());
-		menuBar.enableChangeMonitoredItem(isItemSelected());
+		ActionStatusController.enableRemoveMonitoredItem(isItemSelected());
+		ActionStatusController.enableChangeMonitoredItem(isItemSelected());
 	}
 
 }

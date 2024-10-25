@@ -16,7 +16,7 @@ import javax.swing.ScrollPaneConstants;
 import application.base.app.gui.BottomColoredPanel;
 import application.base.app.gui.ColoredPanel;
 import application.definition.ApplicationConfiguration;
-import applications.property.gui.PropertyApplicationMenu;
+import applications.property.gui.actions.ActionStatusController;
 import applications.property.gui.models.Description;
 import applications.property.gui.models.InventoryItemsTableModel;
 import applications.property.gui.models.MonitoredItemDateCellRenderer;
@@ -32,12 +32,10 @@ public class InventoryItemsPanel extends ColoredPanel {
 
 	JTable itemsTable;
 	InventoryItemsTableModel model;
-	private PropertyApplicationMenu menuBar;
 	private JButton clearSelection = new JButton("Clear selection");
 
-	public InventoryItemsPanel(List<InventoryItem> items, PropertyApplicationMenu menuBar) {
+	public InventoryItemsPanel(List<InventoryItem> items) {
 		LOGGER.entering(CLASS_NAME, "init", items);
-		this.menuBar = menuBar;
 		clearSelection.setEnabled(false);
 		setLayout(new BorderLayout());
 		model = new InventoryItemsTableModel(items);
@@ -110,8 +108,8 @@ public class InventoryItemsPanel extends ColoredPanel {
 	}
 
 	private void updateMenuItems() {
-		menuBar.enableRemoveInventoryItem(isInventoryItemSelected());
-		menuBar.enableChangeInventoryItem(isInventoryItemSelected());
+		ActionStatusController.enableRemoveInventoryItem(isInventoryItemSelected());
+		ActionStatusController.enableChangeInventoryItem(isInventoryItemSelected());
 	}
 
 }

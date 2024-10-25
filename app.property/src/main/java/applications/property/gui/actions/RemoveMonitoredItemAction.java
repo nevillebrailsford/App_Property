@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class RemoveMonitoredItemAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public RemoveMonitoredItemAction(IApplication application) {
+	public RemoveMonitoredItemAction(IPropertyApplication application) {
 		super("Monitored Item");
 		this.application = application;
 	}

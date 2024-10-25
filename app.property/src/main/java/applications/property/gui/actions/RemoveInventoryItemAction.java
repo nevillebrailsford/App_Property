@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class RemoveInventoryItemAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public RemoveInventoryItemAction(IApplication application) {
+	public RemoveInventoryItemAction(IPropertyApplication application) {
 		super("Inventory Item");
 		this.application = application;
 	}

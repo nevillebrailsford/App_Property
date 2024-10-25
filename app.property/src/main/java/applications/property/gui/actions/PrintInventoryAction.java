@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import applications.property.gui.IApplication;
+import applications.property.application.IPropertyApplication;
 
 public class PrintInventoryAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	private IApplication application;
+	private IPropertyApplication application;
 
-	public PrintInventoryAction(IApplication application) {
+	public PrintInventoryAction(IPropertyApplication application) {
 		super("Print Inventory");
 		this.application = application;
 	}

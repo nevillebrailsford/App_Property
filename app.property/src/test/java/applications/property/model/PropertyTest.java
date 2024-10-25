@@ -22,7 +22,7 @@ import application.model.Address;
 import application.model.Period;
 import application.model.PostCode;
 
-class PropertyTest {
+public class PropertyTest {
 
 	private Address address;
 	private PostCode postCode;

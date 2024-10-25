@@ -32,7 +32,7 @@ import applications.property.model.MonitoredItem;
 import applications.property.model.MonitoredItemNotificationType;
 import applications.property.model.Property;
 
-class MonitoredItemMonitorTest {
+public class MonitoredItemMonitorTest {
 
 	NotificationListener p;
 	private static final PostCode postCode1 = new PostCode("CW3 9ST");
