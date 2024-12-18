@@ -55,6 +55,7 @@ import applications.property.model.Property;
 import applications.property.model.PropertyNotificationType;
 import applications.property.report.ApplicationInventoryReport;
 import applications.property.report.ApplicationItemReport;
+import applications.property.report.ApplicationItemSummaryReport;
 import applications.property.storage.PropertyLoad;
 import applications.property.storage.PropertyMonitor;
 
@@ -196,6 +197,14 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IPrope
 		ThreadServices.instance().executor().execute(new ApplicationItemReport(
 				ApplicationConfiguration.applicationDefinition().applicationName() + ".item.pdf"));
 		LOGGER.exiting(CLASS_NAME, "printItemsAction");
+	}
+
+	@Override
+	public void printItemsSummaryAction() {
+		LOGGER.entering(CLASS_NAME, "printItemsSummaryAction");
+		ThreadServices.instance().executor().execute(new ApplicationItemSummaryReport(
+				ApplicationConfiguration.applicationDefinition().applicationName() + ".summary.item.pdf"));
+		LOGGER.exiting(CLASS_NAME, "printItemsSummaryAction");
 	}
 
 	@Override

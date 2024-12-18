@@ -14,6 +14,7 @@ public class PropertyActionFactory extends BaseActionFactory {
 	private static PropertyActionFactory instance = null;
 
 	private PrintItemsAction printItemsAction = null;
+	private PrintItemsSummaryAction printItemsSummaryAction = null;
 	private PrintInventoryAction printInventoryAction = null;
 	private AddPropertyAction addPropertyAction = null;
 	private AddMonitoredItemAction addMonitoredItemAction = null;
@@ -52,6 +53,13 @@ public class PropertyActionFactory extends BaseActionFactory {
 			printItemsAction = new PrintItemsAction((IPropertyApplication) application);
 		}
 		return printItemsAction;
+	}
+
+	public PrintItemsSummaryAction printItemsSummaryAction() {
+		if (printItemsSummaryAction == null) {
+			printItemsSummaryAction = new PrintItemsSummaryAction((IPropertyApplication) application);
+		}
+		return printItemsSummaryAction;
 	}
 
 	public PrintInventoryAction printInventoryAction() {

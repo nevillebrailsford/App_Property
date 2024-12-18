@@ -17,6 +17,7 @@ public class PropertyApplicationMenuBar extends AbstractMenuBar {
 	private static Logger LOGGER = ApplicationConfiguration.logger();
 
 	private JMenuItem printItems;
+	private JMenuItem printItemsSummary;
 	private JMenuItem printInventory;
 	private JMenuItem addProperty;
 	private JMenuItem addMonitoredItem;
@@ -49,8 +50,10 @@ public class PropertyApplicationMenuBar extends AbstractMenuBar {
 		LOGGER.entering(CLASS_NAME, "addBeforeExit");
 		fileMenu.addSeparator();
 		printItems = new JMenuItem(PropertyActionFactory.instance().printItemsAction());
+		printItemsSummary = new JMenuItem(PropertyActionFactory.instance().printItemsSummaryAction());
 		printInventory = new JMenuItem(PropertyActionFactory.instance().printInventoryAction());
 		fileMenu.add(printItems);
+		fileMenu.add(printItemsSummary);
 		fileMenu.add(printInventory);
 		LOGGER.exiting(CLASS_NAME, "addBeforeExit");
 	}

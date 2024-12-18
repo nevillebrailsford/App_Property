@@ -31,4 +31,6 @@ public interface IPropertyApplication extends IApplication {
 	public void changeInventoryItemAction();
 
 	public void changeMonitoredItemAction();
+
+	public void printItemsSummaryAction();
 }
