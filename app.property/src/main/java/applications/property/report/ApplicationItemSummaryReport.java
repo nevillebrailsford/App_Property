@@ -28,10 +28,15 @@ public class ApplicationItemSummaryReport extends ReportCreator {
 		PropertyMonitor.instance().properties().stream().forEach(property -> {
 			document.add(new Paragraph(property.toString()).setFontSize(18).setUnderline());
 			table = buildTable();
-			for (MonitoredItem item : property.monitoredItems()) {
-				if (item.overdue() || item.noticeDue()) {
-					addItemToTable(item);
+			if (property.areItemsOverdue() && property.areNoticesOverdue()) {
+				for (MonitoredItem item : property.monitoredItems()) {
+
+					if (item.overdue() || item.noticeDue()) {
+						addItemToTable(item);
+					}
 				}
+			} else {
+				recordNoEntries();
 			}
 			document.add(table);
 
@@ -49,6 +54,12 @@ public class ApplicationItemSummaryReport extends ReportCreator {
 		table.addHeaderCell(new Cell().add(new Paragraph("Next Action").setFont(bold)));
 		LOGGER.exiting(CLASS_NAME, "buildTable");
 		return table;
+	}
+
+	private void recordNoEntries() {
+		LOGGER.entering(CLASS_NAME, "recordNoEntries");
+		table.addCell(new Cell().add(new Paragraph("No items overdue").setFont(font)));
+		LOGGER.exiting(CLASS_NAME, "recordNoEntries");
 	}
 
 	private void addItemToTable(MonitoredItem item) {
