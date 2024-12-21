@@ -28,9 +28,8 @@ public class ApplicationItemSummaryReport extends ReportCreator {
 		PropertyMonitor.instance().properties().stream().forEach(property -> {
 			document.add(new Paragraph(property.toString()).setFontSize(18).setUnderline());
 			table = buildTable();
-			if (property.areItemsOverdue() && property.areNoticesOverdue()) {
+			if (property.areItemsOverdue() || property.areNoticesOverdue()) {
 				for (MonitoredItem item : property.monitoredItems()) {
-
 					if (item.overdue() || item.noticeDue()) {
 						addItemToTable(item);
 					}
