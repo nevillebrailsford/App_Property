@@ -11,6 +11,7 @@ import com.itextpdf.layout.properties.UnitValue;
 import application.report.ReportConstants;
 import application.report.ReportCreator;
 import applications.property.model.MonitoredItem;
+import applications.property.model.Property;
 import applications.property.storage.PropertyMonitor;
 
 public class ApplicationItemSummaryReport extends ReportCreator {
@@ -35,7 +36,7 @@ public class ApplicationItemSummaryReport extends ReportCreator {
 					}
 				}
 			} else {
-				recordNoEntries();
+				recordNoEntries(property);
 			}
 			document.add(table);
 
@@ -55,10 +56,22 @@ public class ApplicationItemSummaryReport extends ReportCreator {
 		return table;
 	}
 
-	private void recordNoEntries() {
-		LOGGER.entering(CLASS_NAME, "recordNoEntries");
-		table.addCell(new Cell().add(new Paragraph("No items overdue").setFont(font)));
+	private void recordNoEntries(Property property) {
+		LOGGER.entering(CLASS_NAME, "recordNoEntries", property);
+		addCommentToTable("No overdue items");
+		addCommentToTable("First item to be overdue");
+		MonitoredItem item = property.monitoredItems().get(0);
+		addItemToTable(item);
 		LOGGER.exiting(CLASS_NAME, "recordNoEntries");
+	}
+
+	private void addCommentToTable(String comment) {
+		LOGGER.entering(CLASS_NAME, "addCommentToTable", comment);
+		table.addCell(new Cell().setFontColor(ColorConstants.BLUE).add(new Paragraph(comment).setFont(font)));
+		table.addCell(new Cell().add(new Paragraph(" ").setFont(font)));
+		table.addCell(new Cell().add(new Paragraph(" ").setFont(font)));
+		table.addCell(new Cell().add(new Paragraph(" ").setFont(font)));
+		LOGGER.exiting(CLASS_NAME, "addCommentToTable");
 	}
 
 	private void addItemToTable(MonitoredItem item) {
