@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -206,53 +204,8 @@ public class AddMonitoredItemDialog extends JDialog {
 			}
 		});
 		description.getDocument().addDocumentListener(listener);
-		description.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (emptyTextField(description)) {
-					description.requestFocus();
-				}
-				updateButtonStatus();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				description.setText("");
-				updateButtonStatus();
-			}
-		});
 		howMany.getDocument().addDocumentListener(listener);
-		howMany.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!validNumber(howMany)) {
-					howMany.requestFocus();
-				}
-				updateButtonStatus();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				howMany.setText("");
-				updateButtonStatus();
-			}
-		});
 		noticeHowMany.getDocument().addDocumentListener(listener);
-		noticeHowMany.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!validNumber(noticeHowMany)) {
-					noticeHowMany.requestFocus();
-				}
-				updateButtonStatus();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				noticeHowMany.setText("");
-				updateButtonStatus();
-			}
-		});
 		pack();
 		setLocationRelativeTo(parent);
 		LOGGER.exiting(CLASS_NAME, "init");
@@ -300,6 +253,7 @@ public class AddMonitoredItemDialog extends JDialog {
 	private void updateButtonStatus() {
 		if (validFields()) {
 			okButton.setEnabled(true);
+			okButton.requestFocus();
 		} else {
 			okButton.setEnabled(false);
 		}

@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -50,6 +48,23 @@ public class AddPropertyDialog extends JDialog {
 	private JButton cancelButton;
 	private Property property = null;
 	private int result = CANCEL_PRESSED;
+
+	private DocumentListener listener = new DocumentListener() {
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			updateButtonStatus();
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			updateButtonStatus();
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			updateButtonStatus();
+		}
+	};
 
 	/**
 	 * Launch the application.
@@ -161,87 +176,10 @@ public class AddPropertyDialog extends JDialog {
 				setVisible(false);
 			}
 		});
-		street.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (emptyTextField(street)) {
-					street.requestFocus();
-				}
-				if (validFields()) {
-					okButton.setEnabled(true);
-				} else {
-					okButton.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				street.setText("");
-			}
-		});
-		town.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (emptyTextField(town)) {
-					town.requestFocus();
-				}
-				if (validFields()) {
-					okButton.setEnabled(true);
-				} else {
-					okButton.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				town.setText("");
-			}
-		});
-		county.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (emptyTextField(county)) {
-					county.requestFocus();
-				}
-				if (validFields()) {
-					okButton.setEnabled(true);
-				} else {
-					okButton.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				county.setText("");
-			}
-		});
-		postcode.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				checkPostCode();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				postcode.setText("");
-			}
-		});
-		postcode.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				checkPostCode();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				checkPostCode();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				checkPostCode();
-			}
-		});
+		street.getDocument().addDocumentListener(listener);
+		town.getDocument().addDocumentListener(listener);
+		county.getDocument().addDocumentListener(listener);
+		postcode.getDocument().addDocumentListener(listener);
 		pack();
 		setLocationRelativeTo(parent);
 		LOGGER.exiting(CLASS_NAME, "init");
@@ -272,14 +210,13 @@ public class AddPropertyDialog extends JDialog {
 		return field.getText().toUpperCase().matches(PostCode.postCodeRegularExpression);
 	}
 
-	private void checkPostCode() {
-		if (validPostCode(postcode)) {
-			if (validFields()) {
-				okButton.setEnabled(true);
-				okButton.requestFocus();
-			} else {
-				okButton.setEnabled(false);
-			}
+	private void updateButtonStatus() {
+		if (validFields()) {
+			okButton.setEnabled(true);
+			okButton.requestFocus();
+		} else {
+			okButton.setEnabled(false);
 		}
 	}
+
 }
