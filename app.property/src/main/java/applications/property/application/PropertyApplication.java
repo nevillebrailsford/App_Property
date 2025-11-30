@@ -381,10 +381,6 @@ public class PropertyApplication extends ApplicationBaseForGUI implements IPrope
 		LOGGER.exiting(CLASS_NAME, "viewOverdueItemsAction");
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	private void addListeners() {
 		NotificationCentre.addListener(propertyAddedListener, PropertyNotificationType.Add);
 		NotificationCentre.addListener(propertyRemovedListener, PropertyNotificationType.Removed);

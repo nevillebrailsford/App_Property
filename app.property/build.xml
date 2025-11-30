@@ -5,8 +5,8 @@
 	<!--define folder properties-->
 	<property name="dir.buildfile" value="." />
 	<property name="dir.workspace" value="${dir.buildfile}" />
-    <property name="app.base.version" value="3.1.0"/>
-	<property name="app.version" value="1.2.2"/>
+    <property name="app.base.version" value="4.1.0"/>
+	<property name="app.version" value="2.0.0"/>
 	<condition property="isWindows">
 		<os family="windows" />
 	</condition>
@@ -33,7 +33,7 @@
 		<jar destfile="${dir.jarfile}/PropertyApp.jar">
 			<manifest>
 				<attribute name="Main-Class" value="applications.property.application.PropertyApplication" />
-				<attribute name="Class-Path" value=". Property.app_lib/jcalendar-1.4.jar Property.app_lib/jgoodies-forms-1.9.0.jar Property.app_lib/jgoodies-common-1.8.1.jar Property.app_lib/app.base-${app.base.version}.jar Property.app_lib/javax.mail-1.6.2.jar Property.app_lib/activation-1.1.jar Property.app_lib/kernel-7.2.1.jar Property.app_lib/bcpkix-jdk15on-1.69.jar Property.app_lib/bcutil-jdk15on-1.69.jar Property.app_lib/bcprov-jdk15on-1.69.jar Property.app_lib/slf4j-api-1.7.31.jar Property.app_lib/io-7.2.1.jar Property.app_lib/commons-7.2.1.jar Property.app_lib/layout-7.2.1.jar" />
+				<attribute name="Class-Path" value=". Property.app_lib/jcalendar-1.4.jar Property.app_lib/jgoodies-forms-1.9.0.jar Property.app_lib/jgoodies-common-1.8.1.jar Property.app_lib/app.base-${app.base.version}.jar Property.app_lib/javax.mail-1.6.2.jar Property.app_lib/activation-1.1.jar Property.app_lib/kernel-7.2.1.jar Property.app_lib/bcpkix-jdk15on-1.69.jar Property.app_lib/bcutil-jdk15on-1.69.jar Property.app_lib/bcprov-jdk15on-1.69.jar Property.app_lib/slf4j-api-1.7.31.jar Property.app_lib/io-7.2.1.jar Property.app_lib/commons-7.2.1.jar Property.app_lib/layout-7.2.1.jar  Bank.app_lib/commons-codec-1.11.jar" />
 				<attribute name="Build-Date" value="${property.build.date}" />
 				<attribute name="Build-Number" value="${build.number}" />
                 <attribute name="Application-Version" value="${app.version}" />
@@ -61,5 +61,6 @@
 		<copy file="${user.root}/.m2/repository/com/itextpdf/io/7.2.1/io-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/itextpdf/commons/7.2.1/commons-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
 		<copy file="${user.root}/.m2/repository/com/itextpdf/layout/7.2.1/layout-7.2.1.jar" todir="${dir.jarfile}/Property.app_lib" />
+        <copy file="${user.root}/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" todir="${dir.jarfile}/Bank.app_lib" />
 	</target>
 </project>
